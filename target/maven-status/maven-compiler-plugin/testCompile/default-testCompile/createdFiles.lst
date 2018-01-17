@@ -1,0 +1,4 @@
+com/corvesta/keyspring/blueprint/BlueprintApplicationTests.class
+com/corvesta/keyspring/blueprint/ItemsServicesUnitTests.class
+com/corvesta/keyspring/blueprint/ItemRepositoryTest.class
+com/corvesta/keyspring/blueprint/ItemIntegrationTests.class

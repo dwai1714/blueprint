@@ -1,0 +1,18 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.corvesta.keyspring.blueprint.dao.config.OracleDatasourceConfiguration",
+      "name": "oracle.datasource",
+      "sourceMethod": "oracleDataSource()",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.corvesta.keyspring.blueprint.dao.config.PostgresDatasourceConfiguration",
+      "name": "spring.datasource",
+      "sourceMethod": "postgresDataSource()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": []
+}

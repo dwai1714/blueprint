@@ -1,0 +1,65 @@
+spring:
+  datasource:
+    jdbcUrl: jdbc:postgresql://localhost:5432/emdm_d 
+    username : tdaruwalla
+    password : tdaruwalla     
+    driver-class-name: org.postgresql.Driver
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        health-check-interval: 100s
+  jpa:
+    show-sql: true
+    database-platform : com.corvesta.keyspring.blueprint.utils.JsonbExtensionToPostgreSQLDialect   # This is for jsonb for Postgres. The classes are under utilities
+    properties:
+      hibernate:
+        default_schema: emdm #blueprint  # If you want a default schema
+        ddl-auto: create-drop
+  jackson:
+      serialization:
+        WRITE_DATES_AS_TIMESTAMPS : false
+  application:
+    name: Blueprint-Service 
+logging:
+  level:
+    root: fatal
+    com.dc: debug
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  file: /tmp/config/logs/blueprint-service.log
+server:
+    port: 8888
+    
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: true
+  
+swagger:
+  api:
+    base:
+      package: com.dc.blueprint.api
+    path: /*  
+    title: Blueprint REST API
+    description: Spring Boot REST API for Blueprint
+    version: 1.0
+    termsofservice:
+      url: Terms of service
+    contact:
+      name: DC
+      url:  #https://github
+      email: dwaip@yahoo.com
+    license:
+      name: 
+      url: 
+
+oracle:
+  datasource:
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    jdbcUrl: jdbc:oracle:thin:@localhost:1521:xe
+    username: scott
+    password: tiger   
+
+    
