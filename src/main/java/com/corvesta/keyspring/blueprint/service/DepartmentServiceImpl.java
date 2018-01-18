@@ -20,7 +20,7 @@ public class DepartmentServiceImpl  {
 																
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+// has Permission
 	public List<Department> getAll() {
 		logger.debug("Getting All Departments  service is invoked");
 		List<Department> products = departmentJdbcRepository.findAll();
