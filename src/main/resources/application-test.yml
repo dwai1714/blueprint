@@ -1,6 +1,7 @@
 spring:
   datasource:
-    jdbcUrl: jdbc:postgresql://localhost:5432/emdm_d 
+    url: jdbc:postgresql://localhost:5432/emdm_d 
     username : tdaruwalla
     password : tdaruwalla     
     driver-class-name: org.postgresql.Driver
+    
