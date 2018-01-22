@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.corvesta.keyspring.blueprint.exception.ItemNotFoundException;
 import com.corvesta.keyspring.blueprint.model.postgres.Item;
 
 // Use JDBC template in Postgres in dire situation. Stick to JPA and if required hibernate queries
@@ -47,11 +48,11 @@ public class ItemJdbcRepository {
 					new Object[] { productId }, new ItemRowMapper());
 			return item;
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ItemNotFoundException(productId);
+			//e.printStackTrace();
 		}
 
-		return null;
+		//return null;
 	}
 
 	class ItemRowMapper implements RowMapper<Item> {

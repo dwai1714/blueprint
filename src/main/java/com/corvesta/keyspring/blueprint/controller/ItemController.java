@@ -52,14 +52,7 @@ public class ItemController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?> getItemById(@PathVariable Long id) {
-		if (itemService.findItemByProductId(id) != null) // Rather than doing the null check here maybe service should
-															// wrap this. Idea is to show how to use ResponseEntity
-															// where we don't know what will be the output
 			return new ResponseEntity<Item>(itemService.findItemByProductId(id), HttpStatus.OK);
-		else
-			return new ResponseEntity<String>("Item does not exist in the DB ", // This should use a common method
-																				// Hard coding the string is not good
-					HttpStatus.NOT_FOUND);
 	}
 
 }
