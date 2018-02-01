@@ -4,4 +4,8 @@ spring:
     username : tdaruwalla
     password : tdaruwalla     
     driver-class-name: org.postgresql.Driver
+
+oauth:
+  test:
+    url : http://localhost:9000/
     
