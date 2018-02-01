@@ -13,11 +13,13 @@ import org.hibernate.annotations.TypeDef;
 import com.corvesta.keyspring.blueprint.utils.JsonbUserType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "T_ITEM")
 @TypeDef(name = JsonbUserType.JSONB_TYPE, typeClass = JsonbUserType.class)
 
-public class Item {
+public class Item implements Serializable{
 	public Item(String description, ObjectNode urls) {
 		super();
 		this.description = description;

@@ -34,6 +34,7 @@ public class ItemController {
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Item saveProduct(@RequestBody Item product) {
 
+		logger.debug("Invoking saveProduct Call in Controller");
 		Item savedProduct = itemService.save(product);
 		return savedProduct;
 
