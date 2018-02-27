@@ -1,85 +1,72 @@
 package com.corvesta.keyspring.blueprint;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.net.URL;
-
+import com.corvesta.keyspring.blueprint.controller.ItemController;
+import com.corvesta.keyspring.blueprint.model.postgres.Item;
+import com.corvesta.keyspring.blueprint.service.ItemServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.corvesta.keyspring.blueprint.dao.postgres.ItemRepository;
-import com.corvesta.keyspring.blueprint.model.postgres.Item;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = BlueprintApplication.class)
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = { ItemController.class }, secure = false)
 public class ItemIntegrationTests {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	@org.springframework.boot.web.server.LocalServerPort
-	private int port;
-
-	private URL base;
-
-	@Before
-	public void setUp() throws Exception {
-		this.base = new URL("http://localhost:" + port + "/");
-	}
 
 	@Autowired
 	private MockMvc mvc;
 
-	@Autowired
-	private ItemRepository repository;
+	@MockBean
+	ItemServiceImpl itemService;
 
-	@Autowired
-	private TestRestTemplate testRestTemplate;
-
-	private void createTestItem() {
+	@Before
+	public void setup() {
+		List<Item> someEntitys = new ArrayList<>();
 		Item item = new Item();
+		item.setItemtId(new Long(1));
 		item.setDescription("Test Item");
-		repository.save(item);
+		someEntitys.add(item);
+		when(itemService.getAll()).thenReturn(someEntitys);
 	}
-
 	@Test
-	public void givenItems_whenGetItems_thenStatus200() throws Exception {
-
-		createTestItem();
-
-		mvc.perform(get("/api/items").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+	public void getItems() throws Exception {
+		mvc.perform(get("/api/items"))
+				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$[0].description", is("Test Item")));
 	}
 
 	@Test
-	public void postTest() throws Exception {
-		logger.debug("Testing attribute Controller method for adding Class");
+	public void postItems() throws Exception {
 		Item item = new Item();
 		item.setDescription("Test Item from Post");
 
-		String url = this.base.toString() + "api/items";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson=ow.writeValueAsString(item);
 
-		ResponseEntity<Item> response = testRestTemplate.postForEntity(url, item, Item.class);
-		logger.info("Post Status Code " + response.getStatusCode().toString());
-
-		assertThat(response.getStatusCode().is2xxSuccessful());
-
+		mvc.perform(post("/api/items")
+				.contentType(APPLICATION_JSON_UTF8)
+				.content(requestJson))
+				.andExpect(status().isOk());
 	}
+
 }
