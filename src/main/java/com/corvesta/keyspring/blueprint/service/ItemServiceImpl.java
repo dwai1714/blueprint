@@ -1,9 +1,6 @@
 package com.corvesta.keyspring.blueprint.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.corvesta.keyspring.blueprint.dao.postgres.ItemJdbcRepository;
 import com.corvesta.keyspring.blueprint.dao.postgres.ItemRepository;
 import com.corvesta.keyspring.blueprint.model.postgres.Item;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
@@ -36,14 +32,6 @@ public class ItemServiceImpl implements ItemService{
 		logger.debug("Item save service is invoked");
 
 		Item savedProduct = itemRepository.save(item);
-		try {
-			sendProductMessage(savedProduct); // After saving to DB Item is sent also to the rabbit queue called blueprint-message-queue
-		} catch (Exception e) {
-			System.out.println("Am I coming here");
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		logger.debug("Item save service is sucess");
 		return savedProduct;
 	}
@@ -70,18 +58,7 @@ public class ItemServiceImpl implements ItemService{
 		return items;
 	}
 
-	public void sendProductMessage(Item item) throws Exception {
-		Map<String, String> itemMap = new HashMap<>();
-		ObjectMapper oMapper = new ObjectMapper();
-		itemMap = oMapper.convertValue(item, Map.class); // Converting to Hashmap to put to queue
-		String itemString = oMapper.writeValueAsString(item);
-		logger.debug("Sending the index request through queue message >> " + item.getItemtId().toString());
-		logger.debug("Item as String >> " + itemString);
-		//rabbitTemplate.convertAndSend(RabbitConfig.BP_MESSAGE_QUEUE, itemMap);
-//		producer.send(itemString);
-//		consumer.processMessage(itemString);
 
-	}
 
 	@Override
 	public Item findItemByProductId(Long productId) {
