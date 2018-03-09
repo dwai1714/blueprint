@@ -1,8 +1,8 @@
 spring:
   datasource:
-    jdbcUrl: jdbc:postgresql://localhost:5432/emdm_d 
-    username : tdaruwalla
-    password : tdaruwalla     
+    jdbcUrl: jdbc:postgresql://localhost:5432/emdm_d
+    username: tdaruwalla
+    password: tdaruwalla
     driver-class-name: org.postgresql.Driver
   cloud:
     consul:
@@ -12,16 +12,16 @@ spring:
         health-check-interval: 100s
   jpa:
     show-sql: true
-    database-platform : com.corvesta.keyspring.blueprint.utils.JsonbExtensionToPostgreSQLDialect   # This is for jsonb for Postgres. The classes are under utilities
+    database-platform: com.corvesta.keyspring.blueprint.utils.JsonbExtensionToPostgreSQLDialect
     properties:
       hibernate:
-        default_schema: emdm #blueprint  # If you want a default schema
+        default_schema: emdm
         ddl-auto: create-drop
   jackson:
-      serialization:
-        WRITE_DATES_AS_TIMESTAMPS : false
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
   application:
-    name: Blueprint-Service 
+    name: Blueprint-Service
 logging:
   level:
     root: fatal
@@ -29,19 +29,17 @@ logging:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
   file: /tmp/config/logs/blueprint-service.log
 server:
-    port: 8888
-    
+  port: 8888
 management:
   endpoint:
     health:
       enabled: true
-      show-details: true
-  
+      show-details: always
 swagger:
   api:
     base:
       package: com.dc.blueprint.api
-    path: /*  
+    path: /*
     title: Blueprint REST API
     description: Spring Boot REST API for Blueprint
     version: 1.0
@@ -49,18 +47,29 @@ swagger:
       url: Terms of service
     contact:
       name: DC
-      url:  https://github.com/dwai1714/blueprint
+      url: https://github.com/dwai1714/blueprint
       email: dwaip@yahoo.com
     license:
-      name: 
-      url: 
-
+      name: null
+      url: null
 oracle:
   datasource:
     driverClassName: oracle.jdbc.driver.OracleDriver
     jdbcUrl: jdbc:oracle:thin:@localhost:1521:xe
     username: scott
-    password: tiger   
-resource.id: "blueprint"
+    password: tiger
+resource.id: blueprint
 
-    
+
+
+keycloak-client.id: SpringBootKeycloak
+keycloak-client.name: movie-app
+keycloak-client.secret: 3a816bde-3130-4241-87c2-aeeffb715855
+keycloak.auth-server-url: http://localhost:8180/auth
+keycloak.realm: master
+keycloak.resource: SpringBootKeycloak
+keycloak.public-client: true
+keycloak.principal-attribute: preferred_username
+keycloak-client.scopes: openid, profile
+keycloak.jwk: http://localhost:8180/auth/realms/master/protocol/openid-connect/certs
+keycloak.issuer: http://localhost:8180/auth/realms/master  

@@ -40,7 +40,7 @@ public class ItemController {
 
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_READ')")
+	@PreAuthorize("hasRole('ROLE_corvesta_write')")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Item> list() {
 		logger.debug("Invoking getAll Call in Controller");
