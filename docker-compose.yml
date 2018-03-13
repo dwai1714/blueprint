@@ -19,6 +19,8 @@ services:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+    networks:
+      - blueprint_default
 
       
   api:
@@ -32,6 +34,7 @@ services:
       - blueprint_default
     depends_on:
       - 'consul'
+      - 'postgres'
 networks:
   blueprint_default:
     external:
