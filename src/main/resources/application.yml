@@ -63,7 +63,7 @@ resource.id: blueprint
 
 
 keycloak-client.id: SpringBootKeycloak
-keycloak-client.name: movie-app
+keycloak-client.name: SpringBootKeycloak
 keycloak-client.secret: 3a816bde-3130-4241-87c2-aeeffb715855
 keycloak.auth-server-url: http://localhost:8180/auth
 keycloak.realm: master
