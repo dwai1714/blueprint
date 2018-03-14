@@ -1,4 +1,3 @@
-create table sometable(id int, name text);
 CREATE ROLE tdaruwalla WITH LOGIN PASSWORD 'tdaruwalla'	;
 CREATE DATABASE emdm_d;
  \connect emdm_d;
