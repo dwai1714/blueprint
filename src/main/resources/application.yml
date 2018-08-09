@@ -1,23 +1,16 @@
 spring:
   datasource:
-    jdbcUrl: jdbc:postgresql://localhost:5432/emdm_d 
-    username : tdaruwalla
-    password : tdaruwalla     
-    driver-class-name: org.postgresql.Driver
+    jdbcUrl: jdbc:h2:mem:test;MVCC=FALSE;LOCK_TIMEOUT=100;
+    #username : tdaruwalla
+    #password : tdaruwalla     
+    #driver-class-name: org.postgresql.Driver
   cloud:
     consul:
       host: localhost
       port: 8500
       discovery:
         health-check-interval: 100s
-  jpa:
-    show-sql: true
-    database-platform : com.corvesta.keyspring.blueprint.utils.JsonbExtensionToPostgreSQLDialect   # This is for jsonb for Postgres. The classes are under utilities
-    properties:
-      hibernate:
-        default_schema: emdm #blueprint  # If you want a default schema
-        ddl-auto: create-drop
-  jackson:
+    jackson:
       serialization:
         WRITE_DATES_AS_TIMESTAMPS : false
   application:
@@ -31,11 +24,7 @@ logging:
 server:
     port: 8888
     
-management:
-  endpoint:
-    health:
-      enabled: true
-      show-details: true
+
   
 swagger:
   api:
@@ -55,11 +44,6 @@ swagger:
       name: 
       url: 
 
-oracle:
-  datasource:
-    driverClassName: oracle.jdbc.driver.OracleDriver
-    jdbcUrl: jdbc:oracle:thin:@localhost:1521:xe
-    username: scott
-    password: tiger   
+
 
     
