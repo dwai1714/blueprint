@@ -32,7 +32,17 @@ services:
       - "5432:5432"
     networks:
       - blueprint_default
-
+  oracle:
+    container_name: OracleDB
+    image: sath89/oracle-12c
+    volumes:
+      - ~/Desktop:/Desktop # persistent oracle database data
+      - ./oracle/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 1521:1521
+      - 8090:8090
+    networks:
+      - blueprint_default
       
   api:
     container_name: blueprint
